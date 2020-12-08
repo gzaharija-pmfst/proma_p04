@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, Button, TextInput, ScrollView } from 'react-native';
+import { StyleSheet, Text, View, Button, TextInput, ScrollView, FlatList } from 'react-native';
 
 export default function App() {
   const [unos, promjenaUnosa] = useState('')
@@ -10,7 +10,7 @@ export default function App() {
   }
   const noviCilj = () => {
     console.log(unos)
-    postaviCiljeve(ciljevi => [...ciljevi, unos]);
+    postaviCiljeve(ciljevi => [...ciljevi, { broj: Math.random().toString(), value: unos }]);
     promjenaUnosa('')
   }
   return (
@@ -25,13 +25,15 @@ export default function App() {
         <Button title="Dodaj"
           onPress={noviCilj} />
       </View>
-      <ScrollView>
-        {ciljevi.map(cilj =>
-          <View key={cilj} style={stilovi.lista}>
-            <Text >{cilj}</Text>
+      <FlatList
+        keyExtractor={(item, index) => item.broj}
+        data={ciljevi}
+        renderItem={el =>
+          <View style={stilovi.lista}>
+            <Text>{el.item.value}</Text>
           </View>
-        )}
-      </ScrollView>
+        }
+      />
     </View>
   );
 }
