@@ -1,37 +1,23 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, View, Button, TextInput, ScrollView, FlatList } from 'react-native';
+import CiljPrikaz from './components/CiljPrikaz'
+import CiljUnos from './components/CiljUnos'
 
 export default function App() {
-  const [unos, promjenaUnosa] = useState('')
   const [ciljevi, postaviCiljeve] = useState([])
-
-  const noviUnos = (tekst) => {
-    promjenaUnosa(tekst)
-  }
-  const noviCilj = () => {
-    console.log(unos)
-    postaviCiljeve(ciljevi => [...ciljevi, { broj: Math.random().toString(), value: unos }]);
-    promjenaUnosa('')
+  const noviCilj = (unos) => { 
+    postaviCiljeve(ciljevi => [...ciljevi, { broj: Math.random().toString(), value: unos }]);    
   }
   return (
     <View style={stilovi.ekran}>
-      <View style={stilovi.viewUnos}>
-        <TextInput
-          placeholder="dodaj cilj"
-          style={stilovi.unos}
-          value={unos}
-          onChangeText={noviUnos}
-        />
-        <Button title="Dodaj"
-          onPress={noviCilj} />
-      </View>
+      <CiljUnos
+        postaviCiljeve={noviCilj}
+      />
       <FlatList
         keyExtractor={(item, index) => item.broj}
         data={ciljevi}
         renderItem={el =>
-          <View style={stilovi.lista}>
-            <Text>{el.item.value}</Text>
-          </View>
+          <CiljPrikaz naslov={el.item.value} />
         }
       />
     </View>
@@ -41,23 +27,5 @@ export default function App() {
 const stilovi = StyleSheet.create({
   ekran: {
     padding: 50
-  },
-  unos: {
-    width: '70%',
-    marginBottom: 5,
-    borderBottomColor: 'black',
-    borderBottomWidth: 1
-  },
-  viewUnos: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center'
-  },
-  lista: {
-    padding: 10,
-    marginVertical: 10,
-    backgroundColor: '#ccc',
-    borderColor: 'black',
-    borderWidth: 1
   }
 })
