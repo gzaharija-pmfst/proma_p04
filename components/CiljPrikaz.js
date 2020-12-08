@@ -1,12 +1,14 @@
 import React from 'react'
-import {View, Text, StyleSheet} from 'react-native'
+import { TouchableOpacity, View, Text, StyleSheet } from 'react-native'
 
 const CiljPrikaz = (props) => {
 
   return (
-    <View style={stilovi.lista}>
-      <Text>{props.naslov}</Text>
-    </View>
+    <TouchableOpacity activeOpacity={0.5} onPress={props.brisanje}>
+      <View style={stilovi.lista}>
+        <Text>{props.naslov}</Text>
+      </View>
+    </TouchableOpacity>
   )
 }
 
